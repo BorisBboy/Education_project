@@ -13,7 +13,7 @@ function get_user_by_email($email)
 function add_user($email, $password)
 {
 	$pdo = new PDO("mysql:host=array;dbname=my_project;", "root", "");
-	$sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
+	$sql = "INSERT INTO users (email, password, role) VALUES (:email, :password, '')";
 	$passwd = password_hash($password, PASSWORD_DEFAULT);
 	$statement = $pdo->prepare($sql);
 	$final = $statement->execute(["email" => $email, "password" => $passwd]);
@@ -50,7 +50,9 @@ function login($email, $password)
 		{
 			$_SESSION["login"] = true;
 			$_SESSION["user"] = $user;
-			redirect_to("/Учебный проект/users.html");
+			$_SESSION["current_user"] = $email;
+			$_SESSION["role"] = $user["role"];
+			redirect_to("/Учебный проект/users.php");
 		}
 		else
 		{

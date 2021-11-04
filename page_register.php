@@ -1,6 +1,11 @@
 <?php 
 session_start();
 require "func.php";
+
+if($_SESSION["login"] and $_SESSION["login"] === true)
+{
+    redirect_to("/Учебный проект/users.php");
+}
 ?>
 
 
